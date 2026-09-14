@@ -131,6 +131,26 @@
   @media (max-width:480px){
     .hero h1{font-size:37px;} .field-row{flex-direction:column; gap:0;} .field-row .field{margin-bottom:16px;}
   }
+
+  /* ---- Vault Tiers card ---- */
+  .tiers{background:linear-gradient(160deg,#F3F8F4 0%,#FFFFFF 100%);}
+  .tiers-kicker{font-weight:700; text-transform:uppercase; letter-spacing:3px; font-size:11.5px; color:#8A6A1E;}
+  .tiers-title{font-family:'Playfair Display',serif; font-weight:800; font-size:24px; color:var(--green-deep); margin:4px 0 2px;}
+  .tiers-period{font-size:13px; color:var(--ink-soft); font-weight:700;}
+  .tiers-copy{font-size:14.5px; color:var(--ink-soft); margin:12px 0 16px;}
+  .tier-ladder{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+  .tier{border-radius:12px; padding:12px 6px 10px; text-align:center; border:1.5px solid var(--green-line); background:#fff;}
+  .tier-name{font-family:'Playfair Display',serif; font-weight:700; font-size:15px;}
+  .tier-amt{font-size:12.5px; font-weight:700; margin-top:3px; color:var(--ink-soft);}
+  .tier.jade{border-color:#8FCBA3;} .tier.jade .tier-name{color:#3F8256;}
+  .tier.emerald{border-color:var(--green-mid); background:var(--green-soft);} .tier.emerald .tier-name{color:var(--green);}
+  .tier.gold{border-color:#DAA75A; background:#FBF4E4;} .tier.gold .tier-name{color:#8A6A1E;}
+  .tier.crown{border-color:#DAA75A; background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%);}
+  .tier.crown .tier-name{color:#E8C989;} .tier.crown .tier-amt{color:#CFE5D4;}
+  .tiers-fine{margin-top:12px; font-size:12.5px; color:var(--ink-soft); line-height:1.5;}
+  .notice{margin:0 0 16px; padding:11px 13px; background:#FBF4E4; border:1.5px solid #ECDDBB; border-radius:11px; font-size:13.5px; color:#5B4A1E; line-height:1.45;}
+  .notice b{color:#8A6A1E;}
+  @media (max-width:480px){ .tier-ladder{grid-template-columns:repeat(2,1fr);} }
 </style>
 </head>
 <body>
@@ -148,11 +168,25 @@
       <p>The Madams' Vault is our community fund — your donations help fund our community projects, events, and little surprises for the Madams. Give what your heart allows; every amount is treasured. 💚</p>
     </div>
 
+    <div class="card tiers">
+      <div class="tiers-kicker">The Madams' Vault Tiers</div>
+      <div class="tiers-title">Every peso counts and climbs 👑</div>
+      <div class="tiers-period">Batch 1 · BER Months · Sept 15 – Dec 31, 2026</div>
+      <p class="tiers-copy">Your verified donations within the period add up. Reach a threshold and you hold that tier for the rest of the period — with perks announced monthly on the Perks Board.</p>
+      <div class="tier-ladder">
+        <div class="tier jade"><div class="tier-name">Jade</div><div class="tier-amt">₱1,000</div></div>
+        <div class="tier emerald"><div class="tier-name">Emerald</div><div class="tier-amt">₱2,500</div></div>
+        <div class="tier gold"><div class="tier-name">Gold</div><div class="tier-amt">₱5,000</div></div>
+        <div class="tier crown"><div class="tier-name">Crown</div><div class="tier-amt">₱7,000+</div></div>
+      </div>
+      <div class="tiers-fine">Donations stack — four ₱250 gifts = Jade. Tiers reset every quarter, and your all-time total lives on in the Hall of Madams. Tier tracking uses your email and IG handle, so please keep them the same every time you give.</div>
+    </div>
+
     <div class="card">
       <div class="step-head"><div class="step-num">1</div><div class="step-title">Your donation</div></div>
       <div class="field">
         <label>Donation amount <span class="req">*</span></label>
-        <div class="amount-wrap"><span class="peso">₱</span><input type="number" id="amount" min="50" step="50" placeholder="0" inputmode="numeric" oninput="onAmount()"></div>
+        <div class="amount-wrap"><span class="peso">₱</span><input type="number" id="amount" min="10" step="10" placeholder="0" inputmode="numeric" oninput="onAmount()"></div>
         <div class="chips">
           <button type="button" class="chip-amt" data-amt="100" onclick="setAmt(100)">₱100</button>
           <button type="button" class="chip-amt" data-amt="250" onclick="setAmt(250)">₱250</button>
@@ -166,6 +200,7 @@
 
     <div class="card">
       <div class="step-head"><div class="step-num">2</div><div class="step-title">Your details</div></div>
+      <div class="notice"><b>Use the same email and IG handle every time you donate.</b> That's how your donations add up toward your tier — different details won't combine automatically.</div>
       <div class="field">
         <label>Full name <span class="req">*</span></label>
         <input type="text" id="fullName" placeholder="Your full name" oninput="validate()">
@@ -193,6 +228,16 @@
             <option value="Not yet a member">Not yet</option>
           </select>
         </div>
+      </div>
+      <div class="field" style="margin-top:16px; margin-bottom:0;">
+        <label>Show me on the donor wall? <span class="req">*</span></label>
+        <select id="donorWall" onchange="validate()">
+          <option value="">Select</option>
+          <option value="Yes, with IG handle">Yes — with my IG handle</option>
+          <option value="Yes, initials only">Yes — initials only</option>
+          <option value="Anonymous">No — keep me anonymous</option>
+        </select>
+        <div class="field-hint">You earn your tier either way. Anonymous donors appear as "An anonymous Madam".</div>
       </div>
     </div>
 
@@ -249,9 +294,9 @@
         c.classList.toggle('active', Number(c.dataset.amt) === a);
       });
       const note = document.getElementById('amtNote');
-      if (a > 0 && a % 50 !== 0){
+      if (a > 0 && a % 10 !== 0){
         note.style.display = 'block';
-        note.textContent = 'Kindly make it a multiple of \u20B150 \u2014 it keeps our accounting neat. Salamat, Fam! \uD83D\uDC9A';
+        note.textContent = 'Kindly make it a multiple of \u20B110 \u2014 it keeps our accounting neat. Salamat, Fam! \uD83D\uDC9A';
       } else { note.style.display = 'none'; }
       validate();
     }
@@ -271,8 +316,8 @@
       const emailOK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'));
       const proofOK = document.getElementById('proofFile').files.length > 0;
       const checksOK = Array.from(document.querySelectorAll('.confirm-box')).every(c => c.checked);
-      const ok = amt > 0 && amt % 50 === 0 && val('fullName') && emailOK && val('mobile') && val('handle')
-                 && val('memberStatus') && val('paymentMethod') && proofOK && checksOK;
+      const ok = amt > 0 && amt % 10 === 0 && val('fullName') && emailOK && val('mobile') && val('handle')
+                 && val('memberStatus') && val('donorWall') && val('paymentMethod') && proofOK && checksOK;
       document.getElementById('lockBtn').disabled = !ok;
     }
 
@@ -327,7 +372,7 @@
         const amt = Number(val('amount'));
         const data = {
           name: val('fullName'), email: val('email'), mobile: val('mobile'),
-          handle: val('handle'), member: val('memberStatus'),
+          handle: val('handle'), member: val('memberStatus'), wall: val('donorWall'),
           amount: pesoFmt(amt), payment: QR_LABELS[val('paymentMethod')] || val('paymentMethod'),
           proof: dataUrl, proofName: (document.getElementById('proofFile').files[0].name || 'proof.jpg')
         };
@@ -354,6 +399,7 @@
         '<h2>Your donation is on its way</h2>' +
         '<div class="gift-badge"><div class="gcap">Your donation</div><div class="gamt">' + pesoFmt(amt) + '</div></div>' +
         '<p>We\'ve received your donation and proof of payment. The Madams\' Circle will verify it and send your thank-you shortly. Your kindness keeps our community glowing. 💚</p>' +
+        '<p>This gift counts toward <b>The Madams\' Vault Tiers</b>. Once verified, your thank-you email will show your running total for the period and your current tier. 👑</p>' +
         join +
         '<div class="footer" style="margin-top:26px;">— The Madams\' Circle 👑</div>' +
         '</div></div>';
