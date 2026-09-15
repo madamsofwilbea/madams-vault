@@ -171,7 +171,7 @@
     <div class="card tiers">
       <div class="tiers-kicker">The Madams' Vault Tiers</div>
       <div class="tiers-title">Every peso counts and climbs 👑</div>
-      <div class="tiers-period">Batch 1 · BER Months · Sept 15 – Dec 31, 2026</div>
+      <div class="tiers-period" id="tiersPeriod"></div>
       <p class="tiers-copy">Your verified donations within the period add up. Reach a threshold and you hold that tier for the rest of the period — with perks announced monthly on the Perks Board.</p>
       <div class="tier-ladder">
         <div class="tier jade"><div class="tier-name">Jade</div><div class="tier-amt">₱1,000</div></div>
@@ -272,6 +272,19 @@
   </div>
 
   <script>
+    // ---- Vault Tiers: works out the current period from today's date (no manual edits per quarter) ----
+    function vaultPeriodLabel(d){
+      d = d || new Date();
+      var start = new Date(2026, 8, 15);                       // Sept 15, 2026 — Batch 1 begins
+      if (d < start) return 'Batch 1 · BER Months · starts Sept 15, 2026';
+      if (d.getFullYear() === 2026) return 'Batch 1 · BER Months · Sept 15 – Dec 31, 2026';
+      var q = Math.floor(d.getMonth() / 3), y = d.getFullYear();
+      var batch = (y - 2027) * 4 + q + 2;                      // Q1 2027 = Batch 2, Q2 2027 = Batch 3, ...
+      var ranges = ['Jan 1 – Mar 31', 'Apr 1 – Jun 30', 'Jul 1 – Sep 30', 'Oct 1 – Dec 31'];
+      return 'Batch ' + batch + ' · Q' + (q + 1) + ' ' + y + ' · ' + ranges[q] + ', ' + y;
+    }
+    document.getElementById('tiersPeriod').textContent = vaultPeriodLabel();
+
     const VAULT_SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxxmglFWPJMOhdX40ZNq6hnJuUf8rCsV8GMb5_CR8ZZ7Nnvc5pMxso3Ky5AGY9eYx34/exec";
     const MEMBERSHIP_URL = "https://tinyurl.com/MadamsAppForm";
     const QR_CODES = {
