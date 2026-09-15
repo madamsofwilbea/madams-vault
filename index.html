@@ -242,9 +242,9 @@
     </div>
 
     <div class="card">
-      <div class="step-head"><div class="step-num">3</div><div class="step-title">Payment</div></div>
+      <div class="step-head"><div class="step-num">3</div><div class="step-title">Send your donation</div></div>
       <div class="field">
-        <label>Payment method <span class="req">*</span></label>
+        <label>How would you like to send it? <span class="req">*</span></label>
         <select id="paymentMethod" onchange="updateQR(); validate()">
           <option value="">Select</option>
           <option value="gcash">GCash</option>
@@ -253,13 +253,13 @@
         </select>
       </div>
       <div class="qr-box" id="qrBox" style="display:none;">
-        <div class="qr-cap" id="qrCap">Scan to pay</div>
+        <div class="qr-cap" id="qrCap">Scan to send your donation</div>
         <div id="qrDisplay"></div>
       </div>
       <div class="field" style="margin-top:16px;">
-        <label>Proof of payment <span class="req">*</span></label>
+        <label>Proof of donation <span class="req">*</span></label>
         <input type="file" id="proofFile" accept="image/*" onchange="validate()">
-        <div class="field-hint">Upload a screenshot of your payment (JPG or PNG).</div>
+        <div class="field-hint">Upload a screenshot of your donation (JPG or PNG).</div>
       </div>
       <div class="checklist">
         <label class="check-item"><input type="checkbox" class="confirm-box" onchange="validate()"><span>My details are correct, I've sent the amount shown and uploaded my proof, and I understand this is a donation to Madams of WilBea. I agree to be contacted through the details I provided.</span></label>
@@ -305,7 +305,7 @@
       const m = document.getElementById('paymentMethod').value;
       const box = document.getElementById('qrBox');
       if (m && QR_CODES[m]){
-        document.getElementById('qrCap').textContent = 'Scan to pay via ' + QR_LABELS[m];
+        document.getElementById('qrCap').textContent = 'Scan to send via ' + QR_LABELS[m];
         document.getElementById('qrDisplay').innerHTML = '<img src="' + QR_CODES[m] + '" alt="' + QR_LABELS[m] + ' QR code">';
         box.style.display = 'block';
       } else { box.style.display = 'none'; }
@@ -398,7 +398,7 @@
         '<div class="big">💚</div>' +
         '<h2>Your donation is on its way</h2>' +
         '<div class="gift-badge"><div class="gcap">Your donation</div><div class="gamt">' + pesoFmt(amt) + '</div></div>' +
-        '<p>We\'ve received your donation and proof of payment. The Madams\' Circle will verify it and send your thank-you shortly. Your kindness keeps our community glowing. 💚</p>' +
+        '<p>We\'ve received your donation and your proof of donation. The Madams\' Circle will verify it and send your thank-you shortly. Your kindness keeps our community glowing. 💚</p>' +
         '<p>This gift counts toward <b>The Madams\' Vault Tiers</b>. Once verified, your thank-you email will show your running total for the period and your current tier. 👑</p>' +
         join +
         '<div class="footer" style="margin-top:26px;">— The Madams\' Circle 👑</div>' +
