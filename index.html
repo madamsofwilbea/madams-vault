@@ -150,6 +150,42 @@
   .tiers-fine{margin-top:12px; font-size:12.5px; color:var(--ink-soft); line-height:1.5;}
   .notice{margin:0 0 16px; padding:11px 13px; background:#FBF4E4; border:1.5px solid #ECDDBB; border-radius:11px; font-size:13.5px; color:#5B4A1E; line-height:1.45;}
   .notice b{color:#8A6A1E;}
+  /* ---- Who's been generous ---- */
+  .generous{background:linear-gradient(160deg,#FBF4E4 0%,#FFFFFF 70%); border-color:#ECDDBB;}
+  .generous-kicker{font-weight:700; text-transform:uppercase; letter-spacing:3px; font-size:11.5px; color:#8A6A1E;}
+  .generous-title{font-family:'Playfair Display',serif; font-weight:800; font-size:24px; color:var(--green-deep); margin:4px 0 6px;}
+  .generous-copy{font-size:14.5px; color:var(--ink-soft); margin:0 0 16px;}
+  .generous-actions{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .generous-btn{display:flex; align-items:center; gap:12px; text-align:left; padding:16px 16px; border-radius:14px; cursor:pointer; font-family:'Lato',sans-serif; border:1.5px solid var(--green); background:#fff; color:var(--green-deep); transition:transform .12s, box-shadow .2s, background .2s;}
+  .generous-btn:hover{background:var(--green-soft); box-shadow:0 6px 18px rgba(46,93,58,.15); transform:translateY(-1px);}
+  .generous-btn:active{transform:translateY(1px);}
+  .generous-btn .gb-icon{font-size:28px; line-height:1;}
+  .generous-btn .gb-text{display:flex; flex-direction:column; gap:2px;}
+  .generous-btn .gb-text b{font-family:'Playfair Display',serif; font-size:19px; font-weight:700; letter-spacing:.3px; line-height:1.15;}
+  .generous-btn .gb-text small{font-family:'Lato',sans-serif; font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:var(--ink-soft); margin-top:3px;}
+  .generous-btn.crown .gb-text b{color:#E8C989;}
+  .generous-btn.crown{background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%); border-color:var(--green-deep); color:#E8C989;}
+  .generous-btn.crown .gb-text small{color:#CFE5D4;}
+  .generous-btn.crown:hover{background:var(--green-deep);}
+  @media (max-width:480px){ .generous-actions{grid-template-columns:1fr;} }
+  .roster-overlay{display:none; position:fixed; inset:0; background:rgba(34,73,46,.55); backdrop-filter:blur(3px); z-index:1000; overflow-y:auto; padding:24px 14px;}
+  .roster-overlay.show{display:block;}
+  .roster{max-width:520px; margin:0 auto; background:var(--paper); border-radius:18px; border:1px solid var(--green-line); overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,.25);}
+  .roster-head{background:linear-gradient(160deg,var(--green) 0%,var(--green-deep) 100%); color:var(--ivory); padding:22px 22px 18px; position:relative;}
+  .roster-head .kicker{font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#CFE5D4;}
+  .roster-head h3{margin:4px 0 2px; font-family:'Playfair Display',serif; font-size:24px; color:#E8C989;}
+  .roster-head .sub{font-size:13px; color:#CFE5D4;}
+  .roster-close{position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:50%; border:none; background:rgba(255,255,255,.15); color:#fff; font-size:18px; cursor:pointer;}
+  .roster-body{padding:18px 22px 22px;}
+  .roster-group{margin-bottom:16px;}
+  .roster-group h4{margin:0 0 8px; font-family:'Playfair Display',serif; font-size:17px; display:flex; align-items:center; gap:8px;}
+  .roster-group h4 .count{font-family:'Lato',sans-serif; font-size:12px; font-weight:700; color:var(--ink-soft); background:var(--green-soft); padding:2px 8px; border-radius:20px;}
+  .roster-group.crown h4{color:#8A6A1E;} .roster-group.gold h4{color:#8A6A1E;} .roster-group.emerald h4{color:var(--green);} .roster-group.jade h4{color:#3F8256;}
+  .roster-list{display:flex; flex-wrap:wrap; gap:6px;}
+  .roster-list span{font-size:13.5px; padding:6px 11px; border-radius:20px; background:var(--ivory); border:1px solid var(--green-line); color:var(--ink);}
+  .roster-group.crown .roster-list span{background:#FBF4E4; border-color:#ECDDBB;}
+  .roster-empty{font-size:14px; color:var(--ink-soft); text-align:center; padding:22px 8px; line-height:1.6;}
+  .roster-foot{font-size:12px; color:var(--ink-soft); margin-top:6px; text-align:center;}
   @media (max-width:480px){ .tier-ladder{grid-template-columns:repeat(2,1fr);} }
 </style>
 </head>
@@ -180,6 +216,34 @@
         <div class="tier crown"><div class="tier-name">Crown</div><div class="tier-amt">₱7,000+</div></div>
       </div>
       <div class="tiers-fine">Donations stack — four ₱250 gifts = Jade. Tiers reset every quarter, and your all-time total lives on in the Hall of Madams. Tier tracking uses your email and IG handle, so please keep them the same every time you give.</div>
+    </div>
+
+    <div class="card generous">
+      <div class="generous-kicker">Curious?</div>
+      <div class="generous-title">Want to see who's been generous? 👀</div>
+      <p class="generous-copy">Peek at this period's tier roster, or the Hall of Madams for our lifetime legends. Names appear only as each donor chose — handle, initials, or anonymous.</p>
+      <div class="generous-actions">
+        <button type="button" class="generous-btn" onclick="openRoster('tiers')">
+          <span class="gb-icon">💎</span>
+          <span class="gb-text"><b>This period's tiers</b><small id="generousPeriod"></small></span>
+        </button>
+        <button type="button" class="generous-btn crown" onclick="openRoster('hall')">
+          <span class="gb-icon">👑</span>
+          <span class="gb-text"><b>Hall of Madams</b><small>Lifetime milestones</small></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="roster-overlay" id="rosterOverlay" onclick="if(event.target===this) closeRoster()">
+      <div class="roster">
+        <div class="roster-head">
+          <button type="button" class="roster-close" onclick="closeRoster()" aria-label="Close">×</button>
+          <div class="kicker">The Madams' Vault Tiers</div>
+          <h3 id="rosterTitle">This period's tiers</h3>
+          <div class="sub" id="rosterSub"></div>
+        </div>
+        <div class="roster-body" id="rosterBody"><div class="roster-empty">Loading…</div></div>
+      </div>
     </div>
 
     <div class="card">
@@ -284,6 +348,51 @@
       return 'Batch ' + batch + ' · Q' + (q + 1) + ' ' + y + ' · ' + ranges[q] + ', ' + y;
     }
     document.getElementById('tiersPeriod').textContent = vaultPeriodLabel();
+    document.getElementById('generousPeriod').textContent = vaultPeriodLabel().split(' · ').slice(0, 2).join(' · ');
+
+    // ---- Tiers / Hall of Madams roster (reads what the last "Rebuild tiers" produced) ----
+    var rosterCache = null, rosterView = 'tiers';
+    function openRoster(view){
+      rosterView = view;
+      document.getElementById('rosterOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('rosterTitle').textContent = view === 'hall' ? 'Hall of Madams' : "This period's tiers";
+      document.getElementById('rosterSub').textContent = view === 'hall' ? 'Lifetime milestones, across all periods' : vaultPeriodLabel();
+      if (rosterCache) return renderRoster();
+      document.getElementById('rosterBody').innerHTML = '<div class="roster-empty">Loading…</div>';
+      window.vaultRosterCb = function(data){ rosterCache = data; renderRoster(); };
+      var sc = document.createElement('script');
+      sc.src = VAULT_SUBMIT_URL + '?view=tiers&callback=vaultRosterCb&_=' + Date.now();
+      sc.onerror = function(){ document.getElementById('rosterBody').innerHTML = '<div class="roster-empty">Couldn\'t load the roster right now. Please try again in a moment.</div>'; };
+      document.body.appendChild(sc);
+    }
+    function closeRoster(){ document.getElementById('rosterOverlay').classList.remove('show'); document.body.style.overflow = ''; }
+    function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function renderRoster(){
+      var d = rosterCache || {}, body = document.getElementById('rosterBody'), html = '';
+      var updated = d.updated ? new Date(d.updated) : null;
+      var foot = updated ? '<div class="roster-foot">Updated ' + updated.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }) + ' · verified donations only · names shown as each donor chose</div>' : '';
+      if (rosterView === 'tiers'){
+        var order = ['Crown', 'Gold', 'Emerald', 'Jade'], icons = { Crown: '👑', Gold: '🥇', Emerald: '💚', Jade: '💎' };
+        var groups = {}; (d.tiers || []).forEach(function(x){ (groups[x.tier] = groups[x.tier] || []).push(x.name); });
+        var any = false;
+        order.forEach(function(t){
+          if (!groups[t] || !groups[t].length) return; any = true;
+          html += '<div class="roster-group ' + t.toLowerCase() + '"><h4>' + icons[t] + ' ' + t + ' <span class="count">' + groups[t].length + '</span></h4><div class="roster-list">' +
+                  groups[t].map(function(n){ return '<span>' + esc(n) + '</span>'; }).join('') + '</div></div>';
+        });
+        if (!any) html = '<div class="roster-empty">No one has reached Jade yet this period.<br>Be the first — ₱1,000 in verified donations gets you there. 💎</div>';
+      } else {
+        var byMs = {}; (d.hall || []).forEach(function(x){ (byMs[x.milestone] = byMs[x.milestone] || []).push(x.name); });
+        var keys = Object.keys(byMs).sort(function(a, b){ return parseInt(b.replace(/\D/g, ''), 10) - parseInt(a.replace(/\D/g, ''), 10); });
+        keys.forEach(function(k){
+          html += '<div class="roster-group crown"><h4>👑 ' + esc(k) + ' lifetime <span class="count">' + byMs[k].length + '</span></h4><div class="roster-list">' +
+                  byMs[k].map(function(n){ return '<span>' + esc(n) + '</span>'; }).join('') + '</div></div>';
+        });
+        if (!keys.length) html = '<div class="roster-empty">The Hall is waiting for its first Madam.<br>Reach ₱10,000 in lifetime verified donations to be crowned here. 👑</div>';
+      }
+      body.innerHTML = html + foot;
+    }
 
     const VAULT_SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxxmglFWPJMOhdX40ZNq6hnJuUf8rCsV8GMb5_CR8ZZ7Nnvc5pMxso3Ky5AGY9eYx34/exec";
     const MEMBERSHIP_URL = "https://tinyurl.com/MadamsAppForm";
