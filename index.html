@@ -375,7 +375,7 @@
     function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
     function rowHtml(name, label){
       var anon = /^Anonymous Madam/.test(name);
-      return '<div class="roster-row"><span class="rn' + (anon ? ' anon' : '') + '">' + esc(name) + '</span><span class="rt">' + esc(label) + '</span></div>';
+      return '<div class="roster-row"><span class="rn' + (anon ? ' anon' : '') + '">' + esc(name) + '</span></div>';
     }
     function renderRoster(){
       var d = rosterCache || {}, body = document.getElementById('rosterBody'), html = '';
