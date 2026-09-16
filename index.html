@@ -181,9 +181,14 @@
   .roster-group h4{margin:0 0 8px; font-family:'Playfair Display',serif; font-size:17px; display:flex; align-items:center; gap:8px;}
   .roster-group h4 .count{font-family:'Lato',sans-serif; font-size:12px; font-weight:700; color:var(--ink-soft); background:var(--green-soft); padding:2px 8px; border-radius:20px;}
   .roster-group.crown h4{color:#8A6A1E;} .roster-group.gold h4{color:#8A6A1E;} .roster-group.emerald h4{color:var(--green);} .roster-group.jade h4{color:#3F8256;}
-  .roster-list{display:flex; flex-wrap:wrap; gap:6px;}
-  .roster-list span{font-size:13.5px; padding:6px 11px; border-radius:20px; background:var(--ivory); border:1px solid var(--green-line); color:var(--ink);}
-  .roster-group.crown .roster-list span{background:#FBF4E4; border-color:#ECDDBB;}
+  .roster-list{display:flex; flex-direction:column; border:1px solid var(--green-line); border-radius:12px; overflow:hidden; background:#fff;}
+  .roster-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px; border-top:1px solid var(--green-line); font-size:14.5px; color:var(--ink);}
+  .roster-row:first-child{border-top:none;}
+  .roster-row .rn{font-family:'Playfair Display',serif; font-weight:600; font-size:15.5px;}
+  .roster-row .rn.anon{font-style:italic; color:var(--ink-soft); font-weight:500;}
+  .roster-row .rt{font-family:'Lato',sans-serif; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; font-weight:700; color:var(--ink-soft); white-space:nowrap;}
+  .roster-group.crown .roster-list{background:#FFFBF2; border-color:#ECDDBB;} .roster-group.crown .roster-row{border-color:#ECDDBB;} .roster-group.crown .rt{color:#8A6A1E;}
+  .roster-group.gold .rt{color:#8A6A1E;} .roster-group.emerald .rt{color:var(--green);} .roster-group.jade .rt{color:#3F8256;}
   .roster-empty{font-size:14px; color:var(--ink-soft); text-align:center; padding:22px 8px; line-height:1.6;}
   .roster-foot{font-size:12px; color:var(--ink-soft); margin-top:6px; text-align:center;}
   @media (max-width:480px){ .tier-ladder{grid-template-columns:repeat(2,1fr);} }
@@ -368,6 +373,10 @@
     }
     function closeRoster(){ document.getElementById('rosterOverlay').classList.remove('show'); document.body.style.overflow = ''; }
     function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function rowHtml(name, label){
+      var anon = /^Anonymous Madam/.test(name);
+      return '<div class="roster-row"><span class="rn' + (anon ? ' anon' : '') + '">' + esc(name) + '</span><span class="rt">' + esc(label) + '</span></div>';
+    }
     function renderRoster(){
       var d = rosterCache || {}, body = document.getElementById('rosterBody'), html = '';
       var updated = d.updated ? new Date(d.updated) : null;
@@ -379,7 +388,7 @@
         order.forEach(function(t){
           if (!groups[t] || !groups[t].length) return; any = true;
           html += '<div class="roster-group ' + t.toLowerCase() + '"><h4>' + icons[t] + ' ' + t + ' <span class="count">' + groups[t].length + '</span></h4><div class="roster-list">' +
-                  groups[t].map(function(n){ return '<span>' + esc(n) + '</span>'; }).join('') + '</div></div>';
+                  groups[t].map(function(n){ return rowHtml(n, t); }).join('') + '</div></div>';
         });
         if (!any) html = '<div class="roster-empty">No one has reached Jade yet this period.<br>Be the first — ₱1,000 in verified donations gets you there. 💎</div>';
       } else {
@@ -387,7 +396,7 @@
         var keys = Object.keys(byMs).sort(function(a, b){ return parseInt(b.replace(/\D/g, ''), 10) - parseInt(a.replace(/\D/g, ''), 10); });
         keys.forEach(function(k){
           html += '<div class="roster-group crown"><h4>👑 ' + esc(k) + ' lifetime <span class="count">' + byMs[k].length + '</span></h4><div class="roster-list">' +
-                  byMs[k].map(function(n){ return '<span>' + esc(n) + '</span>'; }).join('') + '</div></div>';
+                  byMs[k].map(function(n){ return rowHtml(n, k + ' lifetime'); }).join('') + '</div></div>';
         });
         if (!keys.length) html = '<div class="roster-empty">The Hall is waiting for its first Madam.<br>Reach ₱10,000 in lifetime verified donations to be crowned here. 👑</div>';
       }
